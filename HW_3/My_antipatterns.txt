@@ -1,0 +1,28 @@
+https://github.com/Ludosopher/Professional_web_development_in_PHP/blob/HomeWork_8/HomeWork_8/controllers/GoodController.php#L100 
+
+Метод views подситывает просмотры страницы товара в зависимости от разных факторов. Это реализация специфической логики несвойственной контроллеру. Нарушается первый принцип SOLID и реализуется антипаттерн "Спагетти". Метод лучше перенести в другой модуль, сервисный.
+
+***
+
+https://github.com/Ludosopher/Professional_web_development_in_PHP/blob/HomeWork_8/HomeWork_8/controllers/GoodController.php#L85 
+
+В контроллере GoodController должна решаться только одна задача работы с товарами. Но в него также включены методы работы с отзывами. Это также нарушает первый принцип SOLID и проявляет антипаттерн ООП "Божественный объект".
+***
+
+https://github.com/Ludosopher/Professional_web_development_in_PHP/blob/HomeWork_8/HomeWork_8/repositories/Repository.php#L132 
+
+Класс Reposotory предназначен для методов работы с любыми таблицами. Метод же getOneOrder() предназначен для работы с конкретной таблицей "orders". Его нужно перенести в специальный класс OrderRepository. Это же касается и метода delete(), который удаляет строку только из таблицы "users". Это тоже нарушение первого принципа SOLID и антипаттерн "Божественный объект".
+***
+
+https://github.com/Ludosopher/Laravel_deep_dive/blob/HomeWork_9/HW_9/app/Http/Controllers/Admin/ParserController.php#L47 
+
+Здесь присутствует антипаттерн "Изобретение квадратного колеса". Здесь для транслитерации был использован метод PHP "translit()". Он, как видно, достаточно громоздкий. В Laravel для транслитерации должен использоваться хелпер "Str" - Str::slug. Также на 78 строке для записи данных в таблицу используется фасад "DB", хотя более уместным будет использование системы объектно-реляционного отображения (ORM) — Eloquent. Вместо "DB::table('categories')->insert" - "Categories::insert".
+***
+
+https://github.com/Ludosopher/Professional_web_development_in_PHP/blob/HomeWork_8_with_correct/HomeWork_8_with_corrections/controllers/GoodController.php#L24 
+
+В данном случае проявляется антипаттерн "Слепая вера". При получении данных об одном товаре из базы данных по id не проводится проверка - существует ли в ней товар с таким id. Вера основана на том, что метод oneAction() вызывается кликом мыши по карточке товара, выведенного из таблицы. Поэтому, казалось бы, несуществующий id не может попасть в метод. Но такую ситуацию всёравно нужно предусмотреть проверкой.
+ 
+
+ 
+
