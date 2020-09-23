@@ -88,25 +88,12 @@ class Basket
     /**
      * Оформление заказа
      * @return void
-     * @throws BillingException
-     * @throws CommunicationException
+     * @param BasketFacade $basketFacade
      */
-    public function checkout(): void
+    public function checkout(BasketFacade $basketFacade): void
     {
-        // Здесь должна быть некоторая логика выбора способа платежа
-        $billing = new Card();
-
-        // Здесь должна быть некоторая логика получения информации о скидке
-        // пользователя
-        $discount = new NullObject();
-
-        // Здесь должна быть некоторая логика получения способа уведомления
-        // пользователя о покупке
-        $communication = new Email();
-
-        $security = new Security($this->session);
-
-        $this->checkoutProcess($discount, $billing, $security, $communication);
+        $basketFacade->security = new Security($this->session);
+        $basketFacade->checkout($this->totalPrice());
     }
 
     /**
@@ -155,5 +142,15 @@ class Basket
     private function getProductIds(): array
     {
         return $this->session->get(static::BASKET_DATA_KEY, []);
+    }
+
+    private function totalPrice(): float
+    {
+        $totalPrice = 0;
+        foreach ($this->getProductsInfo() as $product) {
+            $totalPrice += $product->getPrice();
+        }
+
+        return $totalPrice;
     }
 }
