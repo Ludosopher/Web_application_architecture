@@ -1,7 +1,8 @@
 <?php
 
 use Controller\MainController;
-use Controller\OrderController;
+use Controller\OrderInfoController;
+use Controller\OrderCheckoutController;
 use Controller\ProductController;
 use Controller\UserController;
 use Symfony\Component\Routing\RouteCollection;
@@ -25,11 +26,11 @@ $routes->add(
 
 $routes->add(
     'order_info',
-    new Route('/order/info', ['_controller' => [OrderController::class, 'infoAction']])
+    new Route('/order/info', ['_controller' => [OrderInfoController::class, 'infoAction']])
 );
 $routes->add(
     'order_checkout',
-    new Route('/order/checkout', ['_controller' => [OrderController::class, 'checkoutAction']])
+    new Route('/order/checkout', ['_controller' => [OrderCheckoutController::class, 'checkoutAction']])
 );
 
 $routes->add(
